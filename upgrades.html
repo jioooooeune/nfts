@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT Upgrades</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="user-info">
+                <img src="" alt="Avatar" class="user-avatar" id="userAvatar">
+                <div class="user-balance">
+                    <span id="userName">User</span>
+                    <div class="stars-balance">
+                        <img src="images/c51dbff1-7e57-4ce8-ad0c-efc56255fd3a.webp" alt="Stars" class="star-icon">
+                        <span id="starsCount">0</span>
+                    </div>
+                </div>
+            </div>
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Назад
+            </a>
+        </header>
+
+        <main class="main-content">
+            <div class="section-header">
+                <h2><i class="fas fa-arrow-up"></i> Апгрейд NFT</h2>
+                <div class="upgrade-info">
+                    <span class="info-badge">
+                        <i class="fas fa-clock"></i> 5 часов
+                    </span>
+                    <span class="info-badge">
+                        <i class="fas fa-percentage"></i> 1-30%
+                    </span>
+                </div>
+            </div>
+
+            <div class="upgrade-container">
+                <!-- Выбор NFT для апгрейда -->
+                <div class="upgrade-section">
+                    <h3><i class="fas fa-upload"></i> Выберите NFT для вложения</h3>
+                    <div class="nft-selector" id="nftSelector">
+                        <!-- NFT для выбора будут добавляться динамически -->
+                        <div class="no-nfts-message">
+                            <i class="fas fa-box-open"></i>
+                            <p>У вас нет NFT для апгрейда</p>
+                            <a href="index.html" class="go-to-inventory">Перейти в инвентарь</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Выбор цели апгрейда -->
+                <div class="upgrade-section">
+                    <h3><i class="fas fa-bullseye"></i> Цель апгрейда</h3>
+                    <div class="target-selection">
+                        <div class="target-option active" data-target="stars">
+                            <i class="fas fa-star"></i>
+                            <span>Телеграм Звёзды</span>
+                        </div>
+                        <div class="target-option" data-target="rare">
+                            <i class="fas fa-gem"></i>
+                            <span>Редкая NFT</span>
+                        </div>
+                        <div class="target-option" data-target="legendary">
+                            <i class="fas fa-crown"></i>
+                            <span>Легендарная NFT</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Информация о шансах -->
+                <div class="upgrade-section">
+                    <h3><i class="fas fa-chart-bar"></i> Шансы успеха</h3>
+                    <div class="chances-info">
+                        <div class="chance-item">
+                            <span class="chance-label">Минимальный шанс:</span>
+                            <span class="chance-value">1%</span>
+                        </div>
+                        <div class="chance-item">
+                            <span class="chance-label">Максимальный шанс:</span>
+                            <span class="chance-value">30%</span>
+                        </div>
+                        <div class="chance-item">
+                            <span class="chance-label">Текущий шанс:</span>
+                            <span class="chance-value" id="currentChance">1%</span>
+                        </div>
+                    </div>
+                    <div class="chance-bar">
+                        <div class="chance-fill" id="chanceFill" style="width: 1%;"></div>
+                    </div>
+                </div>
+
+                <!-- Активные апгрейды -->
+                <div class="upgrade-section" id="activeUpgradesSection">
+                    <h3><i class="fas fa-history"></i> Активные апгрейды</h3>
+                    <div class="active-upgrades" id="activeUpgrades">
+                        <!-- Активные апгрейды будут добавляться динамически -->
+                        <div class="no-active-upgrades">
+                            <i class="fas fa-hourglass-start"></i>
+                            <p>Нет активных апгрейдов</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Кнопка запуска апгрейда -->
+                <button class="upgrade-btn" id="startUpgradeBtn" onclick="startUpgrade()" disabled>
+                    <i class="fas fa-rocket"></i> Вложить NFT
+                </button>
+            </div>
+
+            <!-- Информация о процессе -->
+            <div class="info-box">
+                <i class="fas fa-info-circle"></i>
+                <p>После вложения NFT процесс апгрейда займет 5 часов. Перемотка времени не работает. По окончании вы увидите результат и процент успеха.</p>
+            </div>
+        </main>
+
+        <nav class="bottom-nav">
+            <a href="referrals.html" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Рефералы</span>
+            </a>
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-suitcase"></i>
+                <span>Инвентарь</span>
+            </a>
+            <a href="upgrades.html" class="nav-item active">
+                <i class="fas fa-arrow-up"></i>
+                <span>Апгрейды</span>
+            </a>
+        </nav>
+
+        <!-- Модальное окно результата апгрейда -->
+        <div id="upgradeResultModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-hourglass-end"></i> Результат апгрейда</h3>
+                    <span class="close-modal" onclick="closeModal('upgradeResultModal')">&times;</span>
+                </div>
+                <div class="modal-body" id="upgradeResultContent">
+                    <!-- Результат будет добавляться динамически -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

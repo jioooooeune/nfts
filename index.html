@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT Inventory</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Шапка с балансом -->
+        <header class="header">
+            <div class="user-info">
+                <img src="" alt="Avatar" class="user-avatar" id="userAvatar">
+                <div class="user-balance">
+                    <span id="userName">User</span>
+                    <div class="stars-balance">
+                        <img src="images/c51dbff1-7e57-4ce8-ad0c-efc56255fd3a.webp" alt="Stars" class="star-icon">
+                        <span id="starsCount">0</span>
+                    </div>
+                </div>
+            </div>
+            <button class="add-funds-btn" onclick="showDepositInstructions()">
+                <i class="fas fa-plus"></i> Пополнить
+            </button>
+        </header>
+
+        <!-- Основной контент - инвентарь -->
+        <main class="main-content">
+            <div class="section-header">
+                <h2><i class="fas fa-suitcase"></i> Мой инвентарь</h2>
+                <button class="info-btn" onclick="showNFTInfo()">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+            </div>
+            
+            <!-- Пустой инвентарь для новых пользователей -->
+            <div class="empty-inventory" id="emptyInventory">
+                <i class="fas fa-box-open"></i>
+                <h3>Инвентарь пуст</h3>
+                <p>Пополните инвентарь, отправив NFT на наш аккаунт</p>
+                <button class="deposit-nft-btn" onclick="showDepositInstructions()">
+                    Как пополнить?
+                </button>
+            </div>
+
+            <!-- Сетка NFT -->
+            <div class="nft-grid" id="nftGrid">
+                <!-- NFT будут добавляться динамически -->
+            </div>
+
+            <!-- Блок телеграм звезд -->
+            <div class="stars-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-star"></i> Телеграм Звёзды</h2>
+                </div>
+                <div class="stars-input-container">
+                    <input type="number" 
+                           id="starsInput" 
+                           placeholder="Количество звёзд"
+                           min="0"
+                           max="100000">
+                    <button class="add-stars-btn" onclick="addStars()">
+                        <i class="fas fa-arrow-up"></i> Вложить
+                    </button>
+                </div>
+                <p class="hint-text">Введите количество звёзд, которые хотите добавить на баланс</p>
+            </div>
+
+            <!-- Спиннер (прокрутка) -->
+            <div class="spin-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-redo"></i> Ежедневная прокрутка</h2>
+                </div>
+                <div class="spin-info">
+                    <div class="spin-stats">
+                        <div class="spin-stat">
+                            <span class="stat-label">Бесплатных осталось:</span>
+                            <span class="stat-value" id="freeSpins">1/1</span>
+                        </div>
+                        <div class="spin-stat">
+                            <span class="stat-label">Цена за прокрутку:</span>
+                            <span class="stat-value">
+                                <img src="images/c51dbff1-7e57-4ce8-ad0c-efc56255fd3a.webp" alt="" class="small-star"> 50
+                            </span>
+                        </div>
+                    </div>
+                    <button class="spin-btn" onclick="openSpinWheel()">
+                        <i class="fas fa-play"></i> Крутить
+                    </button>
+                    <button class="demo-spin-btn" onclick="openDemoSpin()">
+                        <i class="fas fa-eye"></i> Демо-режим
+                    </button>
+                </div>
+                <p class="hint-text">Шанс выиграть NFT: 1%. Демо-режим бесплатный, но без наград</p>
+            </div>
+        </main>
+
+        <!-- Нижняя панель навигации -->
+        <nav class="bottom-nav">
+            <a href="referrals.html" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Рефералы</span>
+            </a>
+            <a href="index.html" class="nav-item active">
+                <i class="fas fa-suitcase"></i>
+                <span>Инвентарь</span>
+            </a>
+            <a href="upgrades.html" class="nav-item">
+                <i class="fas fa-arrow-up"></i>
+                <span>Апгрейды</span>
+            </a>
+        </nav>
+
+        <!-- Модальные окна -->
+        <div id="depositModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-gift"></i> Как пополнить инвентарь?</h3>
+                    <span class="close-modal" onclick="closeModal('depositModal')">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Перейдите в бота</h4>
+                            <p>Откройте <a href="https://t.me/HITLERB3AKOHE" target="_blank">@HITLERB3AKOHE</a></p>
+                        </div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Отправьте NFT</h4>
+                            <p>Выберите коллекционную NFT и отправьте её боту</p>
+                            <div class="warning-box">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <strong>ВАЖНО:</strong> Принимаются только коллекционные NFT
+                            </div>
+                        </div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Получите виртуальную NFT</h4>
+                            <p>NFT с таким же названием появится в вашем инвентаре</p>
+                        </div>
+                    </div>
+                    <div class="nft-warning">
+                        <i class="fas fa-shield-alt"></i>
+                        <p>Проверка отправки происходит автоматически. NFT добавляется в инвентарь в течение 5 минут после отправки.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Модальное окно спиннера -->
+        <div id="spinModal" class="modal">
+            <div class="modal-content spin-modal">
+                <div class="modal-header">
+                    <h3><i class="fas fa-redo"></i> Колесо удачи</h3>
+                    <span class="close-modal" onclick="closeModal('spinModal')">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="spin-wheel-container" id="spinWheel">
+                        <!-- Колесо будет генерироваться в JS -->
+                    </div>
+                    <div class="spin-result" id="spinResult">
+                        <!-- Результат появится здесь -->
+                    </div>
+                    <button class="spin-action-btn" id="spinActionBtn" onclick="performSpin()">
+                        <i class="fas fa-play"></i> Крутить за 50 звёзд
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

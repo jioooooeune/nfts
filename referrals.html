@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="user-info">
+                <img src="" alt="Avatar" class="user-avatar" id="userAvatar">
+                <div class="user-balance">
+                    <span id="userName">User</span>
+                    <div class="stars-balance">
+                        <img src="images/c51dbff1-7e57-4ce8-ad0c-efc56255fd3a.webp" alt="Stars" class="star-icon">
+                        <span id="starsCount">0</span>
+                    </div>
+                </div>
+            </div>
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Назад
+            </a>
+        </header>
+
+        <main class="main-content">
+            <!-- Реферальная ссылка -->
+            <div class="referral-card">
+                <div class="referral-header">
+                    <i class="fas fa-user-plus"></i>
+                    <h2>Приглашайте друзей</h2>
+                </div>
+                <div class="referral-link-container">
+                    <input type="text" 
+                           id="referralLink" 
+                           value="https://t.me/your_bot?start=ref_123456" 
+                           readonly>
+                    <button class="copy-link-btn" onclick="copyReferralLink()">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+                <p class="hint-text">Поделитесь этой ссылкой с друзьями</p>
+            </div>
+
+            <!-- Статистика рефералов -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon invited">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Приглашено</span>
+                        <span class="stat-value" id="invitedCount">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon earned">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Заработано звёзд</span>
+                        <span class="stat-value" id="earnedStars">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon pending">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Осталось до выплаты</span>
+                        <span class="stat-value" id="pendingCount">3</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon reward">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Награда за 3-х</span>
+                        <span class="stat-value">25 звёзд</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Условия вывода -->
+            <div class="withdrawal-conditions">
+                <div class="section-header">
+                    <h2><i class="fas fa-wallet"></i> Условия вывода</h2>
+                </div>
+                <div class="conditions-list">
+                    <div class="condition-item">
+                        <div class="condition-check">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="condition-text">
+                            <strong>Минимум 3 NFT в инвентаре</strong>
+                            <p>Для вывода необходимо иметь минимум 3 NFT</p>
+                        </div>
+                    </div>
+                    <div class="condition-item">
+                        <div class="condition-check">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="condition-text">
+                            <strong>Стоимость от 250 звёзд</strong>
+                            <p>Каждая NFT должна стоить не менее 250 звёзд</p>
+                        </div>
+                    </div>
+                    <div class="condition-item">
+                        <div class="condition-check">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="condition-text">
+                            <strong>Баланс от 750 звёзд</strong>
+                            <p>Общая стоимость NFT для вывода - от 750 звёзд</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Список рефералов -->
+            <div class="referrals-list">
+                <div class="section-header">
+                    <h2><i class="fas fa-list"></i> Ваши рефералы</h2>
+                    <span class="referrals-count" id="totalReferrals">0 человек</span>
+                </div>
+                <div class="referrals-container" id="referralsContainer">
+                    <div class="empty-referrals">
+                        <i class="fas fa-user-friends"></i>
+                        <p>У вас пока нет приглашённых друзей</p>
+                        <p class="hint-text">Пригласите друзей по своей реферальной ссылке</p>
+                    </div>
+                    <!-- Список рефералов будет добавляться динамически -->
+                </div>
+            </div>
+
+            <!-- Кнопка вывода -->
+            <button class="withdraw-btn" id="withdrawBtn" onclick="checkWithdrawal()" disabled>
+                <i class="fas fa-credit-card"></i> Вывести звёзды
+            </button>
+            <p class="hint-text" id="withdrawHint">
+                Для вывода необходимо выполнить все условия
+            </p>
+        </main>
+
+        <nav class="bottom-nav">
+            <a href="referrals.html" class="nav-item active">
+                <i class="fas fa-users"></i>
+                <span>Рефералы</span>
+            </a>
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-suitcase"></i>
+                <span>Инвентарь</span>
+            </a>
+            <a href="upgrades.html" class="nav-item">
+                <i class="fas fa-arrow-up"></i>
+                <span>Апгрейды</span>
+            </a>
+        </nav>
+
+        <!-- Модальное окно вывода -->
+        <div id="withdrawModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-credit-card"></i> Вывод звёзд</h3>
+                    <span class="close-modal" onclick="closeModal('withdrawModal')">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="withdraw-info" id="withdrawInfo">
+                        <!-- Информация о выводе будет добавляться динамически -->
+                    </div>
+                    <button class="confirm-withdraw-btn" onclick="processWithdrawal()">
+                        <i class="fas fa-check"></i> Подтвердить вывод
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
